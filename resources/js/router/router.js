@@ -6,8 +6,8 @@ import Dashboard from './../components/Dashboard.vue';
 const routes = [
     {
       path: '/',
-      name: 'Home', // Give it a name
-      component: Dashboard, // Use any component, here we're using the Dashboard component
+      name: 'Home',
+      component: Dashboard,
     },
     {
       path: '/login',
@@ -23,6 +23,7 @@ const routes = [
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      meta: { requiresAuth: true }
     }
   ];
 
@@ -30,6 +31,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = !!localStorage.getItem('token');
+    if ((to.name === 'Login' || to.name === 'Register') && isAuthenticated) {
+      next({ name: 'Dashboard' });
+    }
+    else if (to.meta.requiresAuth && !isAuthenticated) {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
 });
 
 export default router;

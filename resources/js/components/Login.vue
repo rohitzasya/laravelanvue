@@ -32,6 +32,8 @@
 
 import { useToast } from 'vue-toastification';
 import axios from "axios";
+import { useAuth } from './../useAuth';
+
 
 export default {
   data() {
@@ -40,6 +42,12 @@ export default {
       password: "",
       errors: {},
     };
+  },
+  computed: {
+    isUserAuthenticated() {
+      const { isUserAuthenticated } = useAuth();
+      return isUserAuthenticated.value;
+    },
   },
   methods: {
     validateInput() {
@@ -67,8 +75,11 @@ export default {
       return valid;
     },
 
+
+
     async loginUser() {
         const toast = useToast();
+        const { login } = useAuth();
 
         if (!this.validateInput()) {
             return; // Stop if validation fails
@@ -79,11 +90,11 @@ export default {
             email: this.email,
             password: this.password,
             });
-
             // Store the token in local storage
+            login(response.data.token);
             localStorage.setItem("token", response.data.token);
-
             // Redirect to home component
+            toast.success('Login successful!');
             this.$router.push("/dashboard");
         } catch (error) {
             if (error.response) {

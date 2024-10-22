@@ -1,33 +1,36 @@
-<template>
-  <nav class="navbar">
-    <div class="nav-container">
-      <a href="#" class="logo">Test App</a>
+<script setup>
+import { useAuth } from './../useAuth';
+import { useRouter } from 'vue-router';
 
-    </div>
-  </nav>
+const router = useRouter();
+const { isUserAuthenticated, logout } = useAuth();
+
+const logoutUser = () => {
+   logout();
+   router.push("/login");
+};
+
+</script>
+
+<template>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Test App</a>
+            <ul class="nav-links">
+                <li v-if="isUserAuthenticated">
+                    <button @click="logoutUser" class="nav-link">Logout</button>
+                </li>
+                <li v-if="!isUserAuthenticated">
+                    <router-link to="/login" class="nav-link">Login</router-link>
+                </li>
+                <li v-if="!isUserAuthenticated">
+                    <router-link to="/register" class="nav-link">Register</router-link>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { useToast } from 'vue-toastification';
-
-export default {
-    computed: {
-        isUserAuthenticated() {
-            return localStorage.getItem('token') !== null;
-        }
-    },
-  methods: {
-    logout() {
-      const toast = useToast();
-      localStorage.removeItem('token');
-      this.$router.push('/login');
-      toast.success('You have been logged out successfully.');
-      location.reload()
-    }
-  }
-};
-</script>
 
 
 <style scoped>
