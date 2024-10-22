@@ -98,7 +98,8 @@ export default {
             this.$router.push("/dashboard");
         } catch (error) {
             if (error.response) {
-            this.errors = error.response.data; // Handle validation errors
+            this.errors = error.response.data;
+            toast.error(this.errors.error);// Handle validation errors
             } else {
             console.error("An error occurred:", error);
             }

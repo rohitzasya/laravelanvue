@@ -1,16 +1,12 @@
 <template>
   <div>
     <h1>Welcome to Dashboard!</h1>
-    <p>You are logged in!</p>
+    <p v-if="isUserAuthenticated">You are logged in!</p>
+    <p v-else>You are not logged in. Please log in to access more features.</p>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Dashboard",
-};
+<script setup>
+import { useAuth } from './../useAuth';
+const { isUserAuthenticated } = useAuth();
 </script>
-
-<style scoped>
-/* Add any styles you want here */
-</style>

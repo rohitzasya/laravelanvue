@@ -22,7 +22,7 @@ Setup
 Clone the repository:
 
 
-dowanload zip file and extract that zip file 
+dowanload zip file and extract that zip file
 
 Navigate into the project directory:
 

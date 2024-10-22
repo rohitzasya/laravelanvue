@@ -3,7 +3,7 @@
     <!-- Include the Navbar component here -->
     <Navbar />
     <div class="content">
-        <router-view @logged-in="loggedIn"></router-view>
+        <router-view></router-view>
     </div>
   </div>
 </template>
@@ -13,19 +13,10 @@
 import Navbar from './components/Navbar.vue';
 
 export default {
-    data(){
-        return {
-            userloggeIn :false
-        }
-    },
     name: "App",
     components: {
         Navbar
-
     },
-    loggedIn() {
-        this.userloggeIn = !this.userloggeIn
-    }
 };
 </script>
 
